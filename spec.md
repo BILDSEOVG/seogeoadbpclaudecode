@@ -1,5 +1,23 @@
 # Spezifikation: GEO-Text-Optimizer
 
+> **Stand 16.09.2026 — gilt für Version 2, nicht für die laufende Seite.**
+>
+> Version 1 läuft rein deterministisch auf GitHub Pages, ohne Server und ohne
+> externe Dienste. Dieses Dokument beschreibt weiterhin die Zielarchitektur
+> mit Sprachmodell und Websuche.
+>
+> | Abschnitt | In Version 1 |
+> |---|---|
+> | FR-1 bis FR-7, FR-11, FR-12 | umgesetzt, ohne Sprachmodell |
+> | FR-8 Fakten-Wächter | gegenstandslos — es wird kein Text erzeugt |
+> | FR-9 Kopieren | umgesetzt |
+> | FR-10 Grounding-Abschaltung | gegenstandslos — es gibt kein Grounding |
+> | KS-1 bis KS-6 Missbrauchsschutz | gegenstandslos — kein Server, keine Kosten |
+> | DS-1 bis DS-3 Datenschutz | strukturell erfüllt — der Text verlässt den Browser nicht |
+> | US-1 Umformulieren | **nicht umgesetzt** — braucht ein Sprachmodell |
+>
+> Ablauf und Begründung: [`docs/entwicklungsprotokoll.md`](docs/entwicklungsprotokoll.md)
+
 Version 1.0 (Entwurf) · Phase 1 · kein Code
 
 ## 1. Zweck

@@ -1,5 +1,23 @@
 # Aufgabenliste: GEO-Text-Optimizer
 
+> **Stand 16.09.2026 — diese Liste gilt für Version 2.**
+>
+> Version 1 ist ausgeliefert und deckt die Analyse-Aufgaben T-04 bis T-12
+> deterministisch ab, allerdings ohne Next.js und ohne Server: als statische
+> Seite mit ES-Modulen und dem Test-Runner von Node.
+>
+> | Gruppe | Zustand |
+> |---|---|
+> | 0 Fundament | ersetzt durch statisches Gerüst ohne Abhängigkeiten |
+> | 1 Deterministische Analyse | **umgesetzt** in `assets/analyze.js` und `assets/segment.js` |
+> | 2 Sicherheit | T-12 gegenstandslos, T-13 und T-14 ohne Server hinfällig |
+> | 3 Externe Dienste | zurückgestellt |
+> | 4 Vertrag und Ablauf | ersetzt durch direkte Modulaufrufe in `assets/app.js` |
+> | 5 Oberfläche | **umgesetzt** in `index.html` und `assets/style.css` |
+> | 6 Evaluation | 46 Tests vorhanden, Eval-Korpus steht aus |
+>
+> Ablauf und Begründung: [`docs/entwicklungsprotokoll.md`](docs/entwicklungsprotokoll.md)
+
 Phase 2 · abgeleitet aus `spec.md` · Stand 2026-09
 
 Reihenfolge ist Abhängigkeitsreihenfolge. Aufgaben mit `∥` in derselben
