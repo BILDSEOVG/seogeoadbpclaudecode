@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GEO-Textcheck</title>
+<meta name="description" content="Prüft deutschsprachige Texte gegen zwölf belegte GEO-Regeln. Läuft vollständig im Browser.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='13'>📐</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600&display=swap">
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="kopf">
+  <p class="kicker">Generative Engine Optimization</p>
+  <h1>GEO-Textcheck</h1>
+  <p class="standfirst">Prüft deutsche Texte gegen zwölf belegte Regeln, findet fehlende Belege und schlägt Keywords vor. Läuft vollständig in deinem Browser.</p>
+  <p class="datenschutz">Kein Server, kein Konto, keine Übertragung. Dein Text verlässt dieses Fenster nicht.</p>
+</header>
+
+<section class="eingabe-block">
+  <div class="feld">
+    <label for="zielfrage">Zielfrage oder Haupt-Keyword</label>
+    <input id="zielfrage" type="text" autocomplete="off"
+           placeholder="Wie oft muss eine Schankanlage gereinigt werden?">
+    <p class="hilfe">Wonach soll jemand suchen oder fragen, damit dein Text als Antwort erscheint?</p>
+  </div>
+
+  <div class="feld">
+    <label for="eingabe">Dein Text</label>
+    <textarea id="eingabe" rows="12" spellcheck="false"
+              placeholder="Text hier einfügen …"></textarea>
+  </div>
+
+  <div class="aktionen">
+    <button id="analysieren" type="button" class="primaer">Analysieren</button>
+    <button id="beispiel" type="button" class="sekundaer">Beispieltext laden</button>
+  </div>
+  <p id="hinweis" class="hinweis" hidden></p>
+</section>
+
+<div id="ergebnis" hidden>
+
+  <section class="ergebnis-block">
+    <h2>Bewertung</h2>
+    <div id="score" class="score"></div>
+    <p id="entitaet" class="entitaet"></p>
+    <div class="tscroll">
+      <table class="befunde">
+        <thead>
+          <tr><th class="id">Regel</th><th>Prüfung</th><th>Evidenz</th><th class="punkte">Punkte</th></tr>
+        </thead>
+        <tbody id="befunde"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="ergebnis-block">
+    <h2>Umstrukturierte Fassung</h2>
+    <p class="erklaerung">
+      Hier stehen nur <strong>sichere</strong> Umformungen: Absätze auf zitierfähige Länge geteilt,
+      Leerraum vereinheitlicht. Kein Satz wurde umformuliert und kein Wort ersetzt —
+      das kann eine rein rechnende Version nicht, ohne den Sinn zu riskieren.
+      Alles Weitere steht als begründete Empfehlung darunter.
+    </p>
+    <textarea id="ausgabe" rows="12" spellcheck="false" readonly></textarea>
+    <div class="aktionen">
+      <button id="kopieren" type="button" class="sekundaer">Fassung kopieren</button>
+    </div>
+  </section>
+
+  <section class="ergebnis-block">
+    <h2>Änderungen und Empfehlungen <span id="aenderungen-zahl" class="zahl"></span></h2>
+    <div id="aenderungen" class="liste"></div>
+  </section>
+
+  <section class="ergebnis-block">
+    <h2>Keyword-Vorschläge <span id="keywords-zahl" class="zahl"></span></h2>
+    <p class="erklaerung">
+      Abgeleitet aus deinem Text, deiner Zielfrage und dem Regelwerk — <strong>ohne</strong> Suchvolumina.
+      Jeder Vorschlag nennt offen seine Herkunft. Die fachliche Auswahl bleibt bei dir.
+    </p>
+    <div id="keywords" class="liste"></div>
+  </section>
+
+  <section class="ergebnis-block">
+    <h2>Fehlende Informationen <span id="luecken-zahl" class="zahl"></span></h2>
+    <p class="erklaerung">
+      Das Werkzeug ergänzt <strong>keine</strong> Zahlen, Quellen oder Zitate — es fragt danach.
+      Erfundene Belege wären in einem GEO-Text das größte Risiko.
+    </p>
+    <div id="luecken" class="liste"></div>
+  </section>
+
+</div>
+
+<footer>
+  <p>
+    Zwölf Regeln aus der Princeton-Studie <a href="https://arxiv.org/abs/2311.09735">Generative Engine Optimization</a> (KDD 2024)
+    und der <a href="https://nrlc.ai/en-us/insights/geo16-introduction/">GEO-16-Auswertung</a> über 1.702 Zitationen.
+    Die Prozentwerte sind Maximalwerte aus einer Laborstudie, kein Durchschnitt — deshalb trägt jede Regel eine Evidenzstärke.
+  </p>
+  <p>
+    Diese erste Fassung rechnet nur. Sie misst, bewertet und fragt nach — umformulieren kann sie nicht.
+    Das Regelwerk steht in <code>geo-rules.md</code>, die Anforderungen in <code>spec.md</code>.
+  </p>
+</footer>
+
+</div>
+
+<script type="module" src="./assets/app.js"></script>
+</body>
+</html>

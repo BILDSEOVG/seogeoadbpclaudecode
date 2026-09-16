@@ -3,7 +3,32 @@
 Ein Tool, das deutschsprachige Texte für generative Engines (ChatGPT,
 Perplexity, Google AI Overviews, Claude) analysiert und umformuliert.
 
-**Status:** Phase 2 abgeschlossen — `spec.md` und `tasks.md` liegen vor. Es existiert noch kein Code.
+**Status:** Version 1 läuft. Rein deterministisch, ohne Server und ohne externe Dienste.
+
+## Version 1 starten
+
+Die Seite ist eine statische Datei ohne Abhängigkeiten:
+
+```
+python3 -m http.server 8000   # dann http://localhost:8000 öffnen
+node --test test/*.test.js    # 46 Tests, kein npm install nötig
+```
+
+Für GitHub Pages: in den Repository-Einstellungen unter *Pages* als Quelle
+den Branch wählen, der `index.html` enthält. Die Datei `.nojekyll` sorgt
+dafür, dass der Ordner `assets/` ausgeliefert wird.
+
+### Was Version 1 kann und was nicht
+
+| Kann | Kann nicht |
+|------|------------|
+| Text gegen 12 Regeln prüfen und bewerten | Sätze umformulieren |
+| Zu lange Absätze zitierfähig teilen | Belege ergänzen |
+| Fehlende Belege als Rückfrage ausgeben | Suchvolumina liefern |
+| Keywords aus Text, Zielfrage und Regelwerk ableiten | Wettbewerb prüfen |
+
+Umformulieren braucht ein Sprachmodell und damit einen Server, der den
+Schlüssel hält. Das ist Version 2.
 
 ## Was das Tool können soll
 
