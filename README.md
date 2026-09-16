@@ -36,6 +36,7 @@ Keyword-Dichte, der klassische SEO-Hebel, hatte praktisch keinen Einfluss.
 | `geo-rules.md` | Das SEO-Regelwerk mit Quellen und Evidenzstärke | SEO |
 | `spec.md` | Anforderungen: WAS und WARUM, ohne Technik | gemeinsam |
 | `tasks.md` | 25 Aufgaben mit Akzeptanzkriterien, Technikentscheidungen, Kostenmodell | Technik |
+| `docs/projektplan.html` | Druckbare Gesamtübersicht aller vier Dokumente | abgeleitet |
 
 `geo-rules.md` ist die einzige Quelle für SEO-Logik. Es wird zur Laufzeit als
 System-Prompt geladen — eine Änderung dort ändert das Tool-Verhalten, ohne

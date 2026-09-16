@@ -1,0 +1,480 @@
+<title>GEO-Text-Optimizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@600;700&display=swap">
+<style>
+:root{
+  --paper:#FCFCFB; --surface:#F1F3F4; --surface-2:#E8ECEE;
+  --ink:#141C26; --ink-soft:#55637A; --rule:#DBE0E4; --rule-firm:#B8C1C8;
+  --signal:#0E5B69; --signal-bg:#E3EFF1;
+  --strong:#1B6B4A; --medium:#8A6414; --weak:#6E7A8A; --negative:#A8332F;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#11161B; --surface:#1A212A; --surface-2:#222B35;
+    --ink:#E7ECF1; --ink-soft:#9BA8B6; --rule:#2A333E; --rule-firm:#3C4854;
+    --signal:#5CBCCB; --signal-bg:#16323A;
+    --strong:#55C08D; --medium:#D2A845; --weak:#8B99A8; --negative:#E8797D;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11161B; --surface:#1A212A; --surface-2:#222B35;
+  --ink:#E7ECF1; --ink-soft:#9BA8B6; --rule:#2A333E; --rule-firm:#3C4854;
+  --signal:#5CBCCB; --signal-bg:#16323A;
+  --strong:#55C08D; --medium:#D2A845; --weak:#8B99A8; --negative:#E8797D;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:860px; margin:0 auto; padding-inline:24px; padding-block:56px 80px}
+h1,h2,h3{font-family:var(--serif); text-wrap:balance; margin:0}
+a{color:var(--signal)}
+
+/* ---------- Kopf ---------- */
+.masthead{border-bottom:2px solid var(--ink); padding-bottom:22px}
+.kicker{
+  font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--signal); margin:0 0 14px
+}
+h1{font-size:clamp(34px,7vw,50px); font-weight:700; line-height:1.08; letter-spacing:-.02em}
+.standfirst{
+  font-size:18px; color:var(--ink-soft); margin:14px 0 0; max-width:60ch
+}
+.meta{
+  display:flex; flex-wrap:wrap; gap:8px 28px; margin-top:24px;
+  font-family:var(--mono); font-size:12px; color:var(--ink-soft)
+}
+.meta b{color:var(--ink); font-weight:500}
+
+/* ---------- Abschnitte ---------- */
+section{margin-top:52px}
+.sec-head{display:flex; gap:14px; align-items:baseline; border-bottom:1px solid var(--rule-firm); padding-bottom:8px; margin-bottom:22px}
+.sec-num{font-family:var(--mono); font-size:13px; color:var(--signal); font-weight:500}
+h2{font-size:25px; font-weight:600; letter-spacing:-.01em}
+h3{font-size:16px; font-weight:600; margin:26px 0 10px; color:var(--ink)}
+p{margin:0 0 14px; max-width:66ch}
+.lede{font-size:17px}
+strong{font-weight:600}
+
+/* ---------- Tabellen ---------- */
+.tscroll{overflow-x:auto; margin:0 0 18px}
+table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:440px}
+caption{
+  caption-side:top; text-align:left; font-family:var(--mono); font-size:11px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft);
+  padding-bottom:8px
+}
+th,td{text-align:left; padding:9px 14px 9px 0; border-bottom:1px solid var(--rule); vertical-align:top}
+th{
+  font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-soft); border-bottom:1px solid var(--rule-firm)
+}
+td.id,th.id{font-family:var(--mono); font-size:13px; white-space:nowrap; width:1%; padding-right:18px}
+td.id{color:var(--signal); font-weight:500}
+td.num{font-family:var(--mono); font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+th.num{text-align:right}
+tr:last-child td{border-bottom:none}
+tfoot td{border-top:2px solid var(--rule-firm); border-bottom:none; font-weight:600; padding-top:11px}
+
+/* ---------- Evidenz-Badges ---------- */
+.ev{font-family:var(--mono); font-size:12px; white-space:nowrap; font-weight:500}
+.ev::before{margin-right:6px; font-size:13px}
+.ev.s{color:var(--strong)} .ev.s::before{content:"●"}
+.ev.m{color:var(--medium)} .ev.m::before{content:"◐"}
+.ev.w{color:var(--weak)}   .ev.w::before{content:"○"}
+.legend{display:flex; flex-wrap:wrap; gap:6px 22px; margin:0 0 20px; font-size:13px; color:var(--ink-soft)}
+
+/* ---------- Effekt-Kacheln ---------- */
+.effects{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1px; background:var(--rule); border:1px solid var(--rule); margin:0 0 20px}
+.effect{background:var(--paper); padding:16px 18px}
+.effect .v{font-family:var(--mono); font-size:27px; font-weight:500; letter-spacing:-.02em; display:block; line-height:1.1}
+.effect .v.up{color:var(--strong)}
+.effect .v.down{color:var(--negative)}
+.effect .k{font-size:13px; color:var(--ink-soft); margin-top:6px; display:block}
+
+/* ---------- Ablauf ---------- */
+.flow{border-left:2px solid var(--rule-firm); margin:0 0 18px; padding-left:0}
+.step{display:flex; gap:16px; padding:14px 0 14px 20px; position:relative; border-bottom:1px solid var(--rule)}
+.step:last-child{border-bottom:none}
+.step::before{
+  content:""; position:absolute; left:-5px; top:22px;
+  width:8px; height:8px; background:var(--signal); border-radius:50%
+}
+.step-body{flex:1; min-width:0}
+.step-t{font-weight:600; margin:0 0 3px}
+.step-d{font-size:14px; color:var(--ink-soft); margin:0; max-width:none}
+.chip{
+  font-family:var(--mono); font-size:11px; padding:3px 9px; border-radius:2px;
+  background:var(--surface); color:var(--ink-soft); white-space:nowrap;
+  border:1px solid var(--rule); height:fit-content; letter-spacing:.02em
+}
+.chip.hot{background:var(--signal-bg); color:var(--signal); border-color:var(--signal)}
+
+/* ---------- Merksatz ---------- */
+.note{
+  border-left:3px solid var(--signal); background:var(--surface);
+  padding:16px 20px; margin:0 0 20px
+}
+.note p{margin:0; max-width:62ch}
+.note p + p{margin-top:10px}
+.note .lbl{
+  font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--signal); display:block; margin-bottom:7px
+}
+
+/* ---------- Gruppen-Kopf in Aufgabentabelle ---------- */
+tr.grp td{
+  background:var(--surface-2); font-family:var(--mono); font-size:11.5px;
+  letter-spacing:.09em; text-transform:uppercase; color:var(--ink);
+  padding:9px 14px 9px 0; text-indent:0; border-bottom:1px solid var(--rule-firm); font-weight:500
+}
+tr.grp td span{float:right; color:var(--ink-soft); letter-spacing:.04em; text-transform:none; font-size:11px}
+
+/* ---------- Fuß ---------- */
+footer{margin-top:60px; padding-top:20px; border-top:2px solid var(--ink); font-size:13.5px; color:var(--ink-soft)}
+footer p{max-width:70ch}
+.src{font-size:14px}
+.src li{margin-bottom:9px}
+ul{padding-left:20px; margin:0 0 14px}
+li{margin-bottom:5px}
+code{font-family:var(--mono); font-size:.88em; background:var(--surface); padding:1px 5px; border-radius:2px}
+
+@media (max-width:560px){
+  .wrap{padding-block:36px 56px}
+  .meta{gap:6px 18px}
+  td.id,th.id{padding-right:12px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+
+/* ---------- Druck ---------- */
+@media print{
+  :root{
+    --paper:#fff; --surface:#F3F4F5; --surface-2:#E9EBED;
+    --ink:#000; --ink-soft:#444; --rule:#CCC; --rule-firm:#888;
+    --signal:#0B4854; --signal-bg:#EDF3F4;
+    --strong:#15593C; --medium:#6E5010; --weak:#555; --negative:#8C2A26;
+  }
+  body{font-size:10.5pt; line-height:1.45}
+  .wrap{max-width:none; padding:0}
+  section{margin-top:26pt; break-inside:auto}
+  .sec-head{break-after:avoid}
+  h3{break-after:avoid}
+  table{font-size:9pt; min-width:0}
+  tr,.step,.note,.effect{break-inside:avoid}
+  thead{display:table-header-group}
+  .tscroll{overflow:visible}
+  h1{font-size:26pt}
+  .standfirst{font-size:11pt}
+  footer{break-before:auto}
+  a{text-decoration:none}
+  .src a::after{content:" (" attr(href) ")"; font-family:var(--mono); font-size:8pt; color:#555; word-break:break-all}
+  @page{margin:18mm 16mm}
+}
+</style>
+
+<div class="wrap">
+
+<header class="masthead">
+  <p class="kicker">Projektplan · Spec-Driven Development</p>
+  <h1>GEO-Text-Optimizer</h1>
+  <p class="standfirst">Ein Werkzeug, das deutschsprachige Texte so umformuliert, dass generative Engines sie als Quelle zitieren — und jede Änderung mit Regel und Evidenz begründet.</p>
+  <div class="meta">
+    <span>Stand <b>16.09.2026</b></span>
+    <span>Status <b>Phase 2 abgeschlossen</b></span>
+    <span>Nächster Schritt <b>Umsetzung ab T-01</b></span>
+    <span>Repository <b>seogeoadbpclaudecode</b></span>
+  </div>
+</header>
+
+<section>
+  <div class="sec-head"><span class="sec-num">01</span><h2>Worum es geht</h2></div>
+  <p class="lede">Texte, die für klassisches SEO gebaut wurden, tauchen in KI-Antworten oft nicht auf. Die Studie <em>Generative Engine Optimization</em> (KDD 2024) hat gemessen, was die Zitierwahrscheinlichkeit tatsächlich verändert — und was nicht.</p>
+
+  <div class="effects">
+    <div class="effect"><span class="v up">+34 %</span><span class="k">Quellen nennen</span></div>
+    <div class="effect"><span class="v up">+32 %</span><span class="k">Statistiken ergänzen</span></div>
+    <div class="effect"><span class="v up">+30 %</span><span class="k">Zitate einbauen</span></div>
+    <div class="effect"><span class="v down">−10 %</span><span class="k">Keyword-Stuffing</span></div>
+  </div>
+
+  <p>Keyword-Dichte — der klassische SEO-Hebel — hatte praktisch keinen Einfluss. Was zählt, sind Signale epistemischer Autorität. Genau daraus besteht das Regelwerk in Abschnitt 2.</p>
+
+  <div class="note">
+    <span class="lbl">Die wichtigste Festlegung</span>
+    <p>Das Werkzeug <strong>ergänzt Belege nicht selbst</strong>. Die drei stärksten Hebel verlangen Quellen, Zahlen und Zitate — ein Werkzeug, das sie automatisch „erfüllt", erfindet sie. Fehlen sie, entsteht stattdessen eine Rückfrage an den Autor.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">02</span><h2>Das Regelwerk</h2></div>
+  <p>Zwölf Regeln, jede mit Quelle und Evidenzstärke. Jede Änderung im fertigen Werkzeug verweist auf genau eine Regel-ID — ohne gültige ID keine Änderung. Bei mittlerer oder schwacher Evidenz muss die Begründung das benennen.</p>
+
+  <div class="legend">
+    <span class="ev s">stark — mehrfach belegt</span>
+    <span class="ev m">mittel — plausibel, teils belegt</span>
+    <span class="ev w">schwach — offen</span>
+  </div>
+
+  <div class="tscroll">
+  <table>
+    <caption>A — Zitierfähigkeit</caption>
+    <thead><tr><th class="id">ID</th><th>Regel</th><th>Effekt</th><th>Evidenz</th></tr></thead>
+    <tbody>
+      <tr><td class="id">A1</td><td>Quellen explizit nennen</td><td class="num">+34 %</td><td><span class="ev s">stark</span></td></tr>
+      <tr><td class="id">A2</td><td>Konkrete Zahlen und Statistiken</td><td class="num">+32 %</td><td><span class="ev s">stark</span></td></tr>
+      <tr><td class="id">A3</td><td>Zitate von Autoritäten</td><td class="num">+30 %</td><td><span class="ev s">stark</span></td></tr>
+      <tr><td class="id">A4</td><td>Keyword-Stuffing entfernen</td><td class="num">−10 %</td><td><span class="ev s">stark</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="tscroll">
+  <table>
+    <caption>B — Extrahierbarkeit</caption>
+    <thead><tr><th class="id">ID</th><th>Regel</th><th>Warum</th><th>Evidenz</th></tr></thead>
+    <tbody>
+      <tr><td class="id">B1</td><td>Antwort zuerst — erste 1–3 Sätze beantworten die Zielfrage</td><td>Engines bewerten Passagen, nicht Seiten</td><td><span class="ev s">stark</span></td></tr>
+      <tr><td class="id">B2</td><td>Selbsttragende Absätze, etwa 40–110 Wörter</td><td>Chunk muss ohne Kontext zitierbar sein</td><td><span class="ev m">mittel</span></td></tr>
+      <tr><td class="id">B3</td><td>Überschriften als Fragen, Listen, Tabellen</td><td>Stärkster Struktur-Faktor in GEO-16</td><td><span class="ev s">stark</span></td></tr>
+      <tr><td class="id">B4</td><td>Kernentität je Absatz nennen statt Pronomen</td><td>Retrieval verliert Bezug über Chunk-Grenzen</td><td><span class="ev m">mittel</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="tscroll">
+  <table>
+    <caption>C — Entitäten · D — Vertrauen</caption>
+    <thead><tr><th class="id">ID</th><th>Regel</th><th>Warum</th><th>Evidenz</th></tr></thead>
+    <tbody>
+      <tr><td class="id">C1</td><td>Hauptentität eindeutig: Marke + Kategorie + Ort</td><td>Engines arbeiten entitätsbasiert</td><td><span class="ev m">mittel</span></td></tr>
+      <tr><td class="id">C2</td><td>Synonyme statt Exact-Match-Wiederholung</td><td>Gegenstück zu A4</td><td><span class="ev s">stark</span></td></tr>
+      <tr><td class="id">D1</td><td>Jahreszahl oder Datum im Text</td><td>Freshness ist Top-Faktor in GEO-16</td><td><span class="ev s">stark</span></td></tr>
+      <tr><td class="id">D2</td><td>Superlative durch Konkretes ersetzen</td><td>Unbelegtes wird selten zitiert</td><td><span class="ev m">mittel</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Wenn etwas fehlt</h3>
+  <p>Fehlt eine Grundlage, erscheint sie als Lücke mit konkreter Rückfrage: keine Zahl im Text, keine Quelle, kein Zitat, kein Datum, unklare Hauptentität, Zielfrage unbeantwortet, unbelegter Superlativ.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">03</span><h2>Architektur</h2></div>
+  <p>Fünf Schritte pro Analyse, davon genau <strong>ein</strong> Modellaufruf. Die deterministischen Schritte messen im Code, was sonst das Modell zählen müsste — das ist der eigentliche Hebel für niedrige Kosten, nicht das Kürzen von Prompts.</p>
+
+  <div class="flow">
+    <div class="step">
+      <div class="step-body">
+        <p class="step-t">1 · Security Gate</p>
+        <p class="step-d">Größenlimit, Schema-Prüfung, Rate-Limit, Injection-Scan, Unicode-Normalisierung.</p>
+      </div><span class="chip">0 Token</span>
+    </div>
+    <div class="step">
+      <div class="step-body">
+        <p class="step-t">2 · Deterministische Analyse</p>
+        <p class="step-d">Misst Zahlen, Quellen, Zitate, Absatzlängen, Lesbarkeit, Keyword-Dichte. Ergebnis: Signal-Digest.</p>
+      </div><span class="chip">≤ 300 Token</span>
+    </div>
+    <div class="step">
+      <div class="step-body">
+        <p class="step-t">3 · Grounding</p>
+        <p class="step-d">Eine Suchanfrage, höchstens 5 Treffer, 24-Stunden-Cache je Zielfrage. Zweite Analyse zum selben Thema kostet nichts.</p>
+      </div><span class="chip">≤ 400 Token</span>
+    </div>
+    <div class="step">
+      <div class="step-body">
+        <p class="step-t">4 · Modellaufruf</p>
+        <p class="step-d">Claude Sonnet, erzwungenes Antwortschema. Regelwerk im gecachten System-Prompt, Text und Digests als Daten.</p>
+      </div><span class="chip hot">1 Aufruf</span>
+    </div>
+    <div class="step">
+      <div class="step-body">
+        <p class="step-t">5 · Nachprüfung</p>
+        <p class="step-d">Schema, Fakten-Wächter, Diff gegen das Original, Score neu berechnen, Ausgabe escapen.</p>
+      </div><span class="chip">0 Token</span>
+    </div>
+  </div>
+
+  <div class="note">
+    <span class="lbl">Fakten-Wächter</span>
+    <p>Jede Zahl, jedes Datum, jeder Eigenname und jede URL im Ausgabetext muss im Eingabetext oder in den Suchergebnissen belegbar sein. Andernfalls wird die Stelle markiert.</p>
+    <p>Ohne diese Sperre wäre ein Werkzeug, dessen wirksamste Regel „ergänze Statistiken" heißt, eine Halluzinationsmaschine mit Abmahnrisiko.</p>
+  </div>
+
+  <h3>Ausgabe: vier Bereiche</h3>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th class="id">#</th><th>Bereich</th><th>Felder je Eintrag</th></tr></thead>
+    <tbody>
+      <tr><td class="id">1</td><td>Optimierter Text</td><td>Ersatztext mit markierten Änderungen</td></tr>
+      <tr><td class="id">2</td><td>Änderungen</td><td>vorher, nachher, regel_id, begruendung, impact</td></tr>
+      <tr><td class="id">3</td><td>Keyword-Vorschläge</td><td>keyword, kategorie, begruendung, platzierung</td></tr>
+      <tr><td class="id">4</td><td>Fehlende Informationen</td><td>luecke, warum_kritisch, rueckfrage</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Dazu ein GEO-Score vorher und nachher — im Code berechnet, nicht vom Modell geschätzt.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">04</span><h2>Was der Betrieb kostet</h2></div>
+  <p>Gerechnet für einen Text an der Längengrenze von 25.000 Zeichen, was im Deutschen rund 8.300 Token entspricht.</p>
+
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Position</th><th class="num">Token</th><th class="num">Kosten</th></tr></thead>
+    <tbody>
+      <tr><td>Eingabe — Text, Regelwerk, Digests</td><td class="num">10.700</td><td class="num">0,021 €</td></tr>
+      <tr><td>Ausgabe — Text und drei Listen</td><td class="num">10.300</td><td class="num">0,103 €</td></tr>
+    </tbody>
+    <tfoot><tr><td>Je Maximal-Analyse</td><td class="num">21.000</td><td class="num">≈ 0,12 €</td></tr></tfoot>
+  </table>
+  </div>
+
+  <p><strong>Die Ausgabe ist der Kostentreiber</strong> — beim verwendeten Modell ist sie das Fünffache der Eingabe wert. Wer sparen will, begrenzt die Ausgabelänge, nicht den System-Prompt. Beim angenommenen Tagesdeckel von 5 € sind das rund 40 Analysen dieser Größe pro Tag.</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">05</span><h2>Anforderungen</h2></div>
+
+  <h3>Funktion</h3>
+  <div class="tscroll">
+  <table>
+    <tbody>
+      <tr><td class="id">FR-1</td><td>Eingabe: Text und Zielfrage verpflichtend, Grounding umschaltbar</td></tr>
+      <tr><td class="id">FR-2</td><td>Optimierter Text mit markierten Änderungen</td></tr>
+      <tr><td class="id">FR-3</td><td>Änderungsliste mit Regel-ID, Begründung und Wirkung</td></tr>
+      <tr><td class="id">FR-4</td><td>Keyword-Liste mit Kategorie, Begründung und Platzierung</td></tr>
+      <tr><td class="id">FR-5</td><td>Lücken-Liste mit Rückfrage an den Autor</td></tr>
+      <tr><td class="id">FR-6</td><td>GEO-Score vorher und nachher, im Code berechnet</td></tr>
+      <tr><td class="id">FR-7</td><td>Unbekannte Regel-ID führt zum Verwerfen der Änderung</td></tr>
+      <tr><td class="id">FR-8</td><td>Fakten-Wächter markiert Unbelegtes</td></tr>
+      <tr><td class="id">FR-9</td><td>Optimierten Text als Markdown kopieren</td></tr>
+      <tr><td class="id">FR-10</td><td>Ohne Such-Schlüssel läuft das Werkzeug mit Hinweis weiter</td></tr>
+      <tr><td class="id">FR-11</td><td>Erkannte Injection-Versuche werden angezeigt</td></tr>
+      <tr><td class="id">FR-12</td><td>Fehler sind verständlich, nie eine halbe Ausgabe</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Missbrauchs- und Kostenschutz</h3>
+  <p>Folgt daraus, dass das Werkzeug öffentlich ohne Login erreichbar sein soll. Die Annahmen rechts sind Vorschläge, per Konfiguration änderbar.</p>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th class="id">ID</th><th>Anforderung</th><th>Annahme</th></tr></thead>
+    <tbody>
+      <tr><td class="id">KS-1</td><td>Bot-Schutz vor der Analyse</td><td>Anbieter mit Gratis-Kontingent</td></tr>
+      <tr><td class="id">KS-2</td><td>Limit je IP</td><td>10 Analysen pro Tag</td></tr>
+      <tr><td class="id">KS-3</td><td>Tages-Kostendeckel mit Kill-Switch</td><td>5 € pro Tag</td></tr>
+      <tr><td class="id">KS-4</td><td>Maximale Textlänge</td><td>25.000 Zeichen</td></tr>
+      <tr><td class="id">KS-5</td><td>Kostenobergrenze je Analyse</td><td>0,15 €</td></tr>
+      <tr><td class="id">KS-6</td><td>Bei erreichtem Deckel: Hinweis, kein Fehler</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Datenschutz und Qualität</h3>
+  <ul>
+    <li>Kundentexte werden nicht gespeichert, auch nicht in Fehlerlogs</li>
+    <li>Keine Weitergabe außer an Modellanbieter und Such-API</li>
+    <li>Datenschutzhinweis in der Oberfläche, da öffentlich zugänglich</li>
+    <li>Analyse unter 30 Sekunden, bedienbar auf dem Telefon</li>
+    <li>Gleicher Text ergibt ohne Grounding denselben Score</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">06</span><h2>Die 25 Aufgaben</h2></div>
+  <p>In Abhängigkeitsreihenfolge. <strong>Die ersten vierzehn laufen ohne API-Schlüssel und ohne Kosten</strong> — die teuren, wackeligen Teile kommen erst, wenn das Fundament durch Tests abgesichert ist. Mit <code>∥</code> markierte Aufgaben laufen parallel.</p>
+
+  <div class="tscroll">
+  <table>
+    <thead><tr><th class="id">ID</th><th>Aufgabe</th></tr></thead>
+    <tbody>
+      <tr class="grp"><td colspan="2">Gruppe 0 — Fundament <span>ohne Schlüssel</span></td></tr>
+      <tr><td class="id">T-01</td><td>Projektgerüst: Next.js, TypeScript, Vitest, Playwright, Linting</td></tr>
+      <tr><td class="id">T-02</td><td>Zentrale Konfiguration für Grenzwerte und Schlüssel</td></tr>
+      <tr><td class="id">T-03</td><td>Regelwerk-Parser für <code>geo-rules.md</code></td></tr>
+
+      <tr class="grp"><td colspan="2">Gruppe 1 — Deterministische Analyse ∥ <span>ohne Schlüssel</span></td></tr>
+      <tr><td class="id">T-04</td><td>Textnormalisierung und deutsche Satzsegmentierung</td></tr>
+      <tr><td class="id">T-05 ∥</td><td>Analyzer Belege — Regeln A1–A3</td></tr>
+      <tr><td class="id">T-06 ∥</td><td>Analyzer Struktur — Regeln B1–B3</td></tr>
+      <tr><td class="id">T-07 ∥</td><td>Analyzer Entitäten — Regeln A4, B4, C1, C2</td></tr>
+      <tr><td class="id">T-08 ∥</td><td>Analyzer Vertrauen — Regeln D1, D2</td></tr>
+      <tr><td class="id">T-09</td><td>GEO-Score je Dimension A–D plus Gesamtwert</td></tr>
+      <tr><td class="id">T-10</td><td>Signal-Digest, höchstens 300 Token</td></tr>
+
+      <tr class="grp"><td colspan="2">Gruppe 2 — Sicherheit ∥ <span>ohne Schlüssel</span></td></tr>
+      <tr><td class="id">T-11 ∥</td><td>Injection-Scanner — erkennt Angriffe, ohne harmlose Texte zu markieren</td></tr>
+      <tr><td class="id">T-12 ∥</td><td>Fakten-Wächter</td></tr>
+      <tr><td class="id">T-13 ∥</td><td>Limit je IP, Tages-Kostendeckel, Kill-Switch</td></tr>
+      <tr><td class="id">T-14 ∥</td><td>Bot-Schutz, serverseitig geprüft</td></tr>
+
+      <tr class="grp"><td colspan="2">Gruppe 3 — Externe Dienste <span>Schlüssel nötig</span></td></tr>
+      <tr><td class="id">T-15</td><td>Such-Schnittstelle mit Cache; ohne Schlüssel sauberer Leerlauf</td></tr>
+      <tr><td class="id">T-16</td><td>Modell-Anbindung mit erzwungenem Schema und Caching-Prüfung</td></tr>
+
+      <tr class="grp"><td colspan="2">Gruppe 4 — Vertrag und Ablauf</td></tr>
+      <tr><td class="id">T-17</td><td>Ein Schema für Antwortformat und Prüfung</td></tr>
+      <tr><td class="id">T-18</td><td>Route <code>/api/analyze</code> verkettet alle fünf Schritte</td></tr>
+      <tr><td class="id">T-19</td><td>Nachprüfung: Regel-IDs, Fakten, Diff, Score, Längengrenze</td></tr>
+
+      <tr class="grp"><td colspan="2">Gruppe 5 — Oberfläche</td></tr>
+      <tr><td class="id">T-20</td><td>Eingabeformular und Ergebnisansicht, alle vier Bereiche</td></tr>
+      <tr><td class="id">T-21</td><td>Kopierfunktion, Hinweisleiste, Datenschutzhinweis</td></tr>
+
+      <tr class="grp"><td colspan="2">Gruppe 6 — Evaluation <span>Schlüssel nötig</span></td></tr>
+      <tr><td class="id">T-22</td><td>Eval-Korpus aus 10 deutschen Testtexten mit Baseline</td></tr>
+      <tr><td class="id">T-23</td><td>E2E-Test mit Playwright</td></tr>
+      <tr><td class="id">T-24</td><td>Kostentest gegen das Kostenmodell</td></tr>
+      <tr><td class="id">T-25</td><td>CI bündelt alle Tests in einem Befehl</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">07</span><h2>Offene Punkte</h2></div>
+  <p>Blockieren T-01 bis T-12 nicht. Müssen vor T-13 beantwortet sein, weil sie bestimmen, wo Rate-Limit und Cache liegen.</p>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th class="id">#</th><th>Frage</th><th>Wirkt auf</th></tr></thead>
+    <tbody>
+      <tr><td class="id">1</td><td>Hosting-Ziel</td><td>T-13, T-15</td></tr>
+      <tr><td class="id">2</td><td>Tagesbudget — angenommen 5 €</td><td>T-13, T-24</td></tr>
+      <tr><td class="id">3</td><td>Analysen je IP und Tag — angenommen 10</td><td>T-13</td></tr>
+      <tr><td class="id">4</td><td>Eigene Domain</td><td>Auslieferung</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">08</span><h2>Quellen</h2></div>
+  <ul class="src">
+    <li><a href="https://arxiv.org/abs/2311.09735">GEO: Generative Engine Optimization</a> — Aggarwal et al., KDD 2024. Die neun Methoden, +30–40 %, Keyword-Stuffing −10 %.</li>
+    <li><a href="https://nrlc.ai/en-us/insights/geo16-introduction/">AI Answer Engine Citation Behavior: GEO-16</a> — 1.702 Zitationen über 1.100 URLs; Freshness, semantische Struktur und strukturierte Daten als stärkste Faktoren.</li>
+    <li><a href="https://www.lumar.io/blog/best-practice/content-chunking-ai-extractability-geo-aeo-explainer/">Content Chunking &amp; AI Extractability</a> — Bewertung auf Passagen-Ebene, Entitäten-Konsistenz.</li>
+    <li><a href="https://blckalpaca.at/en/knowledge-base/seo-geo/geo-generative-engine-optimization/the-princeton-geo-study-methodology-results-and-critique">Princeton GEO Study — Methodik und Kritik</a> — Einordnung der Limitierungen.</li>
+  </ul>
+
+  <div class="note">
+    <span class="lbl">Einordnung der Prozentwerte</span>
+    <p>Die Werte in Gruppe A sind <strong>Maximalwerte aus einer Laborstudie</strong> — 2023/24, englischsprachig, mit wenigen konkurrierenden Quellen. Kein Durchschnitt, keine Garantie.</p>
+    <p>Die Richtung — Autoritätssignale schlagen Keyword-Dichte — ist durch GEO-16 unabhängig bestätigt. Die exakten Werte sind es nicht. Deshalb trägt jede Regel eine Evidenzstärke, und das Werkzeug behauptet nie mehr, als die Quelle hergibt.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Dieses Dokument ist die Übersicht. Verbindlich sind die Dateien im Repository: <code>geo-rules.md</code> für die SEO-Logik, <code>spec.md</code> für die Anforderungen, <code>tasks.md</code> für die Umsetzung, <code>prompts/spec-kickoff.md</code> für den Startprompt.</p>
+  <p>Das Regelwerk wird zur Laufzeit als System-Prompt geladen — eine Änderung darin ändert das Verhalten des Werkzeugs, ohne dass Code angefasst wird.</p>
+</footer>
+
+</div>
