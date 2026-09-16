@@ -3,7 +3,7 @@
 Ein Tool, das deutschsprachige Texte für generative Engines (ChatGPT,
 Perplexity, Google AI Overviews, Claude) analysiert und umformuliert.
 
-**Status:** Phase 1 abgeschlossen — `spec.md` liegt vor. Es existiert noch kein Code.
+**Status:** Phase 2 abgeschlossen — `spec.md` und `tasks.md` liegen vor. Es existiert noch kein Code.
 
 ## Was das Tool können soll
 
@@ -35,6 +35,7 @@ Keyword-Dichte, der klassische SEO-Hebel, hatte praktisch keinen Einfluss.
 | `prompts/spec-kickoff.md` | Startprompt für die Entwicklung | Technik |
 | `geo-rules.md` | Das SEO-Regelwerk mit Quellen und Evidenzstärke | SEO |
 | `spec.md` | Anforderungen: WAS und WARUM, ohne Technik | gemeinsam |
+| `tasks.md` | 25 Aufgaben mit Akzeptanzkriterien, Technikentscheidungen, Kostenmodell | Technik |
 
 `geo-rules.md` ist die einzige Quelle für SEO-Logik. Es wird zur Laufzeit als
 System-Prompt geladen — eine Änderung dort ändert das Tool-Verhalten, ohne
@@ -42,6 +43,7 @@ dass Code angefasst wird.
 
 ## Nächster Schritt
 
-Phase 2: aus `spec.md` die Datei `tasks.md` ableiten — kleine, einzeln
-testbare Schritte. Davor sind die vier offenen Punkte in Abschnitt 8 der
-Spezifikation zu beantworten.
+Phase 3: Umsetzung entlang `tasks.md`, Aufgabe für Aufgabe, Test zuerst.
+T-01 bis T-12 können sofort starten. Vor T-13 sind die vier offenen Punkte
+aus Abschnitt 8 der Spezifikation zu beantworten — sie bestimmen, wo
+Rate-Limit und Cache liegen.

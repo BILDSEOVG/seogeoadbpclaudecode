@@ -125,11 +125,18 @@ Folgt aus dem öffentlichen Zugang.
 | KS-2 | Limit pro IP | 10 Analysen pro Tag |
 | KS-3 | Globaler Tages-Kostendeckel mit Kill-Switch | 5 € pro Tag |
 | KS-4 | Maximale Textlänge | 25.000 Zeichen |
-| KS-5 | Token-Obergrenze je Anfrage | 6.000 Input-Token ohne Cache |
+| KS-5 | Kostenobergrenze je Analyse | 0,15 € bei maximaler Textlänge |
 | KS-6 | Bei erreichtem Deckel: verständlicher Hinweis, kein Fehler | — |
 
 Die Werte in der rechten Spalte sind Vorschläge und per Konfiguration
 änderbar, nicht im Code verdrahtet.
+
+**Rechengrundlage zu KS-3 und KS-5:** Ein Text an der Längengrenze (25.000
+Zeichen ≈ 8.300 Token im Deutschen) erzeugt zusammen mit Regelwerk und
+Digests rund 10.700 Eingabe- und 10.300 Ausgabe-Token. Die Ausgabe ist beim
+verwendeten Modell das Fünffache der Eingabe wert, sie bestimmt die Kosten.
+Daraus folgen rund 0,12 € je Maximal-Analyse und rund 40 solcher Analysen
+pro Tag beim angenommenen Deckel.
 
 ## 6. Datenschutz
 

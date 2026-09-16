@@ -66,8 +66,9 @@ geschätzt.
 - `geo-rules.md` steht im gecachten System-Prompt, nie im User-Content.
 - Ohne Such-API-Key: Grounding sauber deaktiviert plus sichtbarer
   UI-Hinweis. Kein Absturz, keine stille Verschlechterung.
-- Budget: höchstens 6.000 Input-Token pro Analyse ohne Cache.
+- Budget: höchstens 0,15 € pro Analyse bei maximaler Textlänge.
   Überschreitung ist ein fehlgeschlagener Test, keine Warnung.
+  Die Ausgabelänge bestimmt die Kosten, nicht die Eingabe.
 
 ---
 
