@@ -3,6 +3,8 @@
 Ein Tool, das deutschsprachige Texte für generative Engines (ChatGPT,
 Perplexity, Google AI Overviews, Claude) analysiert und umformuliert.
 
+**Live:** https://bildseovg.github.io/seogeoadbpclaudecode/
+
 **Status:** Version 1 läuft. Rein deterministisch, ohne Server und ohne externe Dienste.
 
 ## Version 1 starten
@@ -11,7 +13,7 @@ Die Seite ist eine statische Datei ohne Abhängigkeiten:
 
 ```
 python3 -m http.server 8000   # dann http://localhost:8000 öffnen
-node --test test/*.test.js    # 46 Tests, kein npm install nötig
+node --test test/*.test.js    # 50 Tests, kein npm install nötig
 ```
 
 Für GitHub Pages: in den Repository-Einstellungen unter *Pages* als Quelle

@@ -94,6 +94,40 @@ durch Regressionstests abgedeckt.
 Zusätzlich fehlte das Feld `bereits_vorhanden` aus FR-4 — ohne das wirkt jeder
 Vorschlag wie eine Ergänzung, auch wenn er längst im Text steht.
 
+## 5b. Nachtrag: Google Fonts entfernt
+
+Nachdem die Seite über GitHub Pages öffentlich erreichbar war, fiel ein
+Problem auf, das vorher folgenlos gewesen wäre: Die Seite lud ihre Schriften
+von `fonts.googleapis.com` und `fonts.gstatic.com`. Damit geht die
+IP-Adresse jedes Besuchers ohne Einwilligung an einen Dritten — genau das
+Muster, das 2022 vor dem Landgericht München I abgemahnt wurde
+(Az. 3 O 17493/20).
+
+Zusätzlich war dadurch die Zusage im Seitenkopf — „keine Übertragung" —
+selbst nicht ganz zutreffend.
+
+**Behoben:** Die zwölf benötigten Schriftschnitte liegen jetzt unter
+`assets/fonts/` im Repository, eingebunden über `assets/fonts.css`. Durch
+`unicode-range` lädt ein deutschsprachiger Besucher nur die sechs
+`latin`-Dateien, rund 180 KB. Im Browser gegengeprüft: null Aufrufe an
+fremde Hosts.
+
+Dieselbe Umstellung betrifft `docs/projektplan.html`, das über Pages
+ebenfalls öffentlich erreichbar ist.
+
+`test/keine-fremdaufrufe.test.js` hält den Zustand fest. Die Prüfung schlägt
+fehl, sobald eine Datei wieder von einem fremden Host lädt, sobald eine
+CSS-Datei `@import` auf eine fremde Adresse nutzt, oder sobald ein Skript
+`fetch`, `XMLHttpRequest`, `WebSocket`, `sendBeacon` oder `EventSource`
+verwendet. Links im Fließtext sind ausgenommen — die klickt der Leser
+selbst an, sie laden beim Seitenaufruf nichts.
+
+> **Hinweis zur Artifact-Fassung:** Die auf claude.ai veröffentlichte
+> Fassung des Projektplans ist ein Schnappschuss von vorher und bindet dort
+> weiterhin Google Fonts ein. Das ist auf claude.ai der vorgesehene Weg und
+> betrifft die eigene Domain nicht. Wird sie neu veröffentlicht, müssen die
+> Schriftdateien mitgegeben werden.
+
 ## 6. Stand
 
 ### Was läuft
@@ -106,12 +140,14 @@ Vorschlag wie eine Ergänzung, auch wenn er längst im Text steht.
 
 ### Was noch aussteht
 
-**GitHub Pages ist noch nicht aktiviert.** Das ist eine Repository-Einstellung
-und von hier aus weder setzbar noch prüfbar — der Sandbox-Proxy blockiert
-`github.io` vollständig. Zu aktivieren unter *Settings → Pages → Source:
-Deploy from a branch → `claude/kind-turing-cj4vid` / `(root)`*. Die Datei
-`.nojekyll` liegt bereits im Repository, damit der Ordner `assets/`
-ausgeliefert wird.
+**GitHub Pages ist aktiv.** Die Seite läuft unter
+`https://bildseovg.github.io/seogeoadbpclaudecode/`. Bestätigt wurde das vom
+Auftraggeber, nicht aus dieser Umgebung heraus: Der Sandbox-Proxy blockiert
+`github.io` vollständig, sowohl über curl als auch über WebFetch. Prüfungen
+der Live-Seite brauchen daher fremde Augen oder einen Screenshot.
+
+Was hier geprüft wurde, ist die Seite aus demselben Commit-Stand, lokal in
+einem echten Chromium ausgeliefert.
 
 ### Dokumentations-Schuld
 
@@ -147,6 +183,6 @@ austauschen.
 
 | Priorität | Schritt |
 |-----------|---------|
-| 1 | GitHub Pages aktivieren und die Seite mit echten Texten gegenprüfen |
+| 1 | Die Live-Seite mit echten Kundentexten gegenprüfen |
 | 2 | Regelwerk fachlich gegenlesen — Gewichtung und Schwellen sind Annahmen |
 | 3 | Version 2 planen: Umformulierung, damit ein Server mit Schlüssel und die Sperren aus `spec.md` |
