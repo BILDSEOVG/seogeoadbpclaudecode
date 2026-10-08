@@ -1,0 +1,87 @@
+:root {
+  --papier: #fbf7ef;
+  --tinte: #1f1d1a;
+  --leise: #6b655c;
+  --linie: #ddd4c4;
+  --karte: #ffffff;
+  --gruen: #2f7d4f;
+  --gruen-hell: #e3f1e8;
+  --akzent: #c2410c;
+  --ruecken: #2f7d4f;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papier: #171614;
+    --tinte: #eee8de;
+    --leise: #a39b8f;
+    --linie: #3a362f;
+    --karte: #22201d;
+    --gruen: #6fcf97;
+    --gruen-hell: #1f3528;
+    --akzent: #fb923c;
+    --ruecken: #24543a;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--tinte);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  line-height: 1.5;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-family: 'IBM Plex Serif', Georgia, serif; font-size: 2rem; margin: 0 0 4px; }
+h2 { font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--leise); margin: 0 0 8px; font-weight: 500; }
+.hilfe { color: var(--leise); margin: 0; }
+
+.stand { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0; padding: 12px 16px; border: 1px solid var(--linie); border-radius: 10px; }
+.stand div { text-align: center; flex: 1; }
+.stand .label { display: block; font-size: .8rem; color: var(--leise); }
+.stand strong { font-size: 1.5rem; font-family: 'IBM Plex Mono', monospace; }
+
+.tisch { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.karte {
+  background: var(--karte); border: 1px solid var(--linie); border-radius: 14px;
+  padding: 10px; min-height: 420px; display: flex; flex-direction: column;
+  box-shadow: 0 2px 8px rgb(0 0 0 / .06);
+}
+.karte.verdeckt { background: var(--ruecken); border-color: var(--ruecken); }
+.ruecken { flex: 1; display: grid; place-items: center; font-size: 4rem; color: #fff; font-family: 'IBM Plex Serif', serif; border: 3px dashed rgb(255 255 255 / .35); border-radius: 10px; }
+.karten-kopf { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: .75rem; }
+.kid { font-family: 'IBM Plex Mono', monospace; font-weight: 500; background: var(--gruen); color: var(--karte); padding: 1px 7px; border-radius: 6px; }
+.gruppe { color: var(--leise); text-align: right; }
+.bild { aspect-ratio: 4 / 3; margin: 8px 0; border-radius: 8px; overflow: hidden; background: var(--gruen-hell); display: grid; place-items: center; }
+.bild img { width: 100%; height: 100%; object-fit: cover; }
+.platzhalter { font-family: 'IBM Plex Serif', serif; font-size: 2.6rem; color: var(--gruen); }
+.name { font-family: 'IBM Plex Serif', serif; font-size: 1.1rem; margin: 0 0 6px; line-height: 1.2; overflow-wrap: anywhere; }
+.werte { display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+.wert {
+  display: flex; justify-content: space-between; gap: 6px; padding: 6px 8px;
+  border: 1px solid var(--linie); border-radius: 8px; font: inherit; font-size: .85rem;
+  background: transparent; color: inherit; text-align: left;
+}
+.wert strong { font-family: 'IBM Plex Mono', monospace; }
+button.wert { cursor: pointer; min-height: 40px; }
+button.wert:hover, button.wert:focus-visible { border-color: var(--gruen); background: var(--gruen-hell); outline: none; }
+.wert.markiert { border-color: var(--akzent); box-shadow: inset 0 0 0 1px var(--akzent); }
+.leer { margin: auto; color: var(--leise); }
+
+.meldung { min-height: 3em; margin: 16px 0 8px; font-weight: 500; }
+.knoepfe { display: flex; gap: 8px; flex-wrap: wrap; }
+button.haupt, button.neben { font: inherit; padding: 10px 18px; border-radius: 10px; cursor: pointer; min-height: 44px; }
+button.haupt { background: var(--gruen); color: var(--karte); border: 0; font-weight: 600; }
+button.neben { background: transparent; color: var(--tinte); border: 1px solid var(--linie); }
+button[hidden] { display: none; }
+
+.bilder { margin-top: 32px; border-top: 1px solid var(--linie); padding-top: 16px; }
+.bilder summary { cursor: pointer; font-weight: 500; }
+.bilder input[type=file] { margin: 8px 0; max-width: 100%; }
+.liste { columns: 2; padding-left: 18px; font-size: .85rem; }
+code { font-family: 'IBM Plex Mono', monospace; }
+
+@media (max-width: 480px) {
+  .karte { min-height: 360px; padding: 8px; }
+  .wert { font-size: .78rem; padding: 5px 6px; }
+  .platzhalter { font-size: 2rem; }
+}

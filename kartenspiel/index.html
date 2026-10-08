@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' blob: data:; base-uri 'none'; form-action 'none'">
+<title>Muppets-Quartett</title>
+<meta name="description" content="Quartett gegen den Computer, mit 32 Muppets-Karten. Läuft vollständig im Browser.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='13'>🃏</text></svg>">
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main class="wrap">
+  <header class="kopf">
+    <h1>Muppets-Quartett</h1>
+    <p class="hilfe">Du gegen den Computer. Wähle einen Wert deiner Karte — der höhere gewinnt beide Karten. Wer alle 32 Karten hat, gewinnt.</p>
+  </header>
+
+  <section class="stand" aria-live="polite">
+    <div><span class="label">Du</span> <strong id="anzahl-du">16</strong></div>
+    <div><span class="label">Topf</span> <strong id="anzahl-topf">0</strong></div>
+    <div><span class="label">Computer</span> <strong id="anzahl-pc">16</strong></div>
+  </section>
+
+  <section class="tisch">
+    <div class="seite">
+      <h2>Deine Karte</h2>
+      <div id="karte-du" class="karte"></div>
+    </div>
+    <div class="seite">
+      <h2>Computer</h2>
+      <div id="karte-pc" class="karte"></div>
+    </div>
+  </section>
+
+  <p id="meldung" class="meldung" aria-live="polite"></p>
+  <div class="knoepfe">
+    <button id="weiter" type="button" class="haupt"></button>
+    <button id="neu" type="button" class="neben">Neues Spiel</button>
+  </div>
+
+  <details class="bilder">
+    <summary>Bilder für die Karten laden</summary>
+    <p>Die Bilder liegen nicht auf dem Server, weil die Muppets Disney gehören. Lade eigene Bilder von deinem Gerät. Sie bleiben nur in diesem Browser und werden nirgendwohin übertragen.</p>
+    <p><strong>Dateiname = Karten-ID</strong>, z. B. <code>A1.jpg</code> für Kermit. Erlaubt: JPG, PNG, WebP, GIF, je höchstens 5 MB.</p>
+    <input id="bild-wahl" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+    <p id="bild-status" class="hilfe"></p>
+    <button id="bilder-loeschen" type="button" class="neben">Alle Bilder entfernen</button>
+    <details>
+      <summary>Kartenliste (ID → Figur)</summary>
+      <ul id="kartenliste" class="liste"></ul>
+    </details>
+  </details>
+</main>
+<script type="module" src="./app.js"></script>
+</body>
+</html>

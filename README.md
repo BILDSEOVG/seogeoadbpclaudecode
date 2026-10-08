@@ -13,7 +13,7 @@ Die Seite ist eine statische Datei ohne Abhängigkeiten:
 
 ```
 python3 -m http.server 8000   # dann http://localhost:8000 öffnen
-node --test test/*.test.js    # 50 Tests, kein npm install nötig
+node --test test/*.test.js    # 64 Tests, kein npm install nötig
 ```
 
 Für GitHub Pages: in den Repository-Einstellungen unter *Pages* als Quelle
@@ -76,3 +76,10 @@ Phase 3: Umsetzung entlang `tasks.md`, Aufgabe für Aufgabe, Test zuerst.
 T-01 bis T-12 können sofort starten. Vor T-13 sind die vier offenen Punkte
 aus Abschnitt 8 der Spezifikation zu beantworten — sie bestimmen, wo
 Rate-Limit und Cache liegen.
+
+## Nebenprojekt: Muppets-Quartett
+
+Ordner `kartenspiel/`, live unter `/kartenspiel/`. Quartett gegen den Computer,
+32 Karten, läuft komplett im Browser. Die Bilder liegen bewusst **nicht** im
+Repository (Urheberrecht Disney): Man lädt sie im Spiel selbst, Dateiname =
+Karten-ID (`A1.jpg` = Kermit). Sie bleiben nur im eigenen Browser.
