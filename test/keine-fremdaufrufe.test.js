@@ -15,6 +15,9 @@ const DATEIEN = [
   ...readdirSync(new URL('../assets', import.meta.url))
     .filter((f) => f.endsWith('.js'))
     .map((f) => `assets/${f}`),
+  ...readdirSync(new URL('../kartenspiel', import.meta.url))
+    .filter((f) => /\.(js|css|html)$/.test(f))
+    .map((f) => `kartenspiel/${f}`),
 ];
 
 const lies = (p) => readFileSync(new URL(`../${p}`, import.meta.url), 'utf8');
